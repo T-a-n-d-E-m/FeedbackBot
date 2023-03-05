@@ -15,6 +15,7 @@ if [ $(id -u) -ne 0 ]; then
 	exit
 fi
 
+systemctl stop feedbackbot
 
 # Install the executable and change permissions and ownership
 cp feedbackbot $INSTALL_DIR
