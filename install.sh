@@ -21,7 +21,7 @@ cp feedbackbot $(INSTALL_DIR)
 chown feedbackbot:feedbackbot $(INSTALL_DIR)/feedbackbot
 chmod 500 $(INSTALL_DIR)/feedbackbot
 
-# bot.ini
+# discord.token - not versioned!
 cp discord.token $(INSTALL_DIR)
 chown feedbackbot:feedbackbot $(INSTALL_DIR)/discord.token
 chmod 400 $(INSTALL_DIR)/discord.token
