@@ -37,3 +37,6 @@ feedbackbot
 
 # Discord token
 discord.token
+
+# Log file
+feedbackbot.log

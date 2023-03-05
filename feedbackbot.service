@@ -1,0 +1,17 @@
+[Unit]
+Description=XDHS Feedback Bot
+After=network.target
+
+[Service]
+Type=simple
+User=feedbackbot
+Group=feedbackbot
+WorkingDirectory=/opt/FeedbackBot/
+ExecStart=/opt/FeedbackBot/feedbackbot
+StandardOutput=syslog
+Restart=always
+RestartSec=1
+StartLimitIntervalSec=0
+
+[Install]
+WantedBy=default.target
