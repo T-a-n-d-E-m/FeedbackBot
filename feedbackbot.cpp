@@ -52,25 +52,24 @@ static bool g_quit = false;
 static int g_exit_code = 0;
 
 static void sig_handler(int signo) {
-    switch(signo) {
-        case SIGINT:  // Fall through
-        case SIGABRT: // Fall through
-        case SIGHUP:  // Fall through
-        case SIGTERM:
-            log(LOG_LEVEL_INFO, strsignal(signo));
-            g_quit = true;
-        	break;
+	switch(signo) {
+		case SIGINT:  // Fall through
+		case SIGABRT: // Fall through
+		case SIGHUP:  // Fall through
+		case SIGTERM:
+			log(LOG_LEVEL_INFO, strsignal(signo));
+			g_quit = true;
+			break;
 
-        default: log(LOG_LEVEL_INFO, "Caught unhandled signal: %d", signo);
-    }
+		default: log(LOG_LEVEL_INFO, "Caught unhandled signal: %d", signo);
+	}
 
-    g_exit_code = signo;
+	g_exit_code = signo;
 }
 
 
 int main() {
-	// Read the Discord token from the discord.token file
-	{
+	{   // Read the Discord token from the discord.token file
 		FILE* f = fopen("discord.token", "rb");
 		if(f != NULL) {
 			memset(g_discord_token, 0, DISCORD_TOKEN_LENGTH_MAX + 1);
@@ -83,39 +82,39 @@ int main() {
 	}
 
 	// FeedbackBot runs as a Linux systemd service, so we need to gracefully handle these signals.
-    (void)signal(SIGINT, sig_handler);
-    (void)signal(SIGABRT, sig_handler);
-    (void)signal(SIGHUP, sig_handler);
-    (void)signal(SIGTERM, sig_handler);
-    (void)signal(SIGKILL, sig_handler);
+	(void)signal(SIGINT, sig_handler);
+	(void)signal(SIGABRT, sig_handler);
+	(void)signal(SIGHUP, sig_handler);
+	(void)signal(SIGTERM, sig_handler);
+	(void)signal(SIGKILL, sig_handler);
 
 	// Set up logging to an external file. This only logs bot events, not the messages the bot sends.
 	log_init("feedbackbot.log");
 
-    log(LOG_LEVEL_INFO, "====== Feedback Bot starting ======");
+	log(LOG_LEVEL_INFO, "====== Feedback Bot starting ======");
 	log(LOG_LEVEL_INFO, "libDPP++ version: %s", dpp::utility::version().c_str());
 
 	// Create the bot and connect to Discord.
 	dpp::cluster bot(g_discord_token, dpp::i_all_intents);
 
 	// Override the default DPP logger with ours.
-    bot.on_log([](const dpp::log_t& event) {
-        LOG_LEVEL level = g_log_level;
-        switch(event.severity) {
-            case dpp::ll_trace:    level = LOG_LEVEL_DEBUG; break;
-            case dpp::ll_debug:    level = LOG_LEVEL_DEBUG; break;
-            case dpp::ll_info:     level = LOG_LEVEL_INFO; break;
-            case dpp::ll_warning:  level = LOG_LEVEL_WARNING; break;
-            case dpp::ll_error:    level = LOG_LEVEL_ERROR; break;
-            case dpp::ll_critical: level = LOG_LEVEL_ERROR; break;
-        }
-        log(level, "%s", event.message.c_str());
-    });
+	bot.on_log([](const dpp::log_t& event) {
+		LOG_LEVEL level = g_log_level;
+		switch(event.severity) {
+			case dpp::ll_trace:    level = LOG_LEVEL_DEBUG;   break;
+			case dpp::ll_debug:    level = LOG_LEVEL_DEBUG;   break;
+			case dpp::ll_info:     level = LOG_LEVEL_INFO;    break;
+			case dpp::ll_warning:  level = LOG_LEVEL_WARNING; break;
+			case dpp::ll_error:    level = LOG_LEVEL_ERROR;   break;
+			case dpp::ll_critical: level = LOG_LEVEL_ERROR;   break;
+		}
+		log(level, "%s", event.message.c_str());
+	});
 
 	// Called when Discord has connected the bot to a guild.
 	bot.on_guild_create([&bot](const dpp::guild_create_t& event) {
 		const std::uint64_t guild_id = (std::uint64_t) event.created->id;
-        log(LOG_LEVEL_INFO, "on_guild_create: Guild name:[%s] Guild ID:[%lu]", event.created->name.c_str(), guild_id);
+		log(LOG_LEVEL_INFO, "on_guild_create: Guild name:[%s] Guild ID:[%lu]", event.created->name.c_str(), guild_id);
 
 		// Check the guild connecting is actually an XDHS guild.
 		if((guild_id != GUILD_XDHS_PUBLIC) && (guild_id != GUILD_XDHS_PRIVATE)) return;
