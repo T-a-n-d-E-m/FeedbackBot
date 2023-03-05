@@ -47,7 +47,7 @@ static const std::uint64_t GUILD_XDHS_PRIVATE = 882164794566791179; // Our priva
 static const std::uint64_t MESSAGE_CHANNEL_PUBLIC = 663421258872127498;
 static const std::uint64_t MESSAGE_CHANNEL_PRIVATE = 1081839707190738984;
 
-// This signal handling is extremely basic but it's all we need for such a simple bot.:w
+// This signal handling is extremely basic but it's all we need for such a simple bot.
 static bool g_quit = false;
 static int g_exit_code = 0;
 
