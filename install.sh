@@ -8,7 +8,7 @@ INSTALL_DIR="/opt/FeedbackBot"
 # Also needs:
 #     1) A group account: sudo addgroup --system feedbackbot
 #     2) A user account: sudo adduser --system --ingroup feedbackbot --home=$INSTALL_DIR --disabled-login feedbackbot
-#     3) A discord.token file in $(INSTALL_DIR)
+#     3) A discord.token file in $INSTALL_DIR
 
 if [ $(id -u) -ne 0 ]; then
 	echo "Must run as root."
