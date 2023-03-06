@@ -23,11 +23,6 @@
 // 
 // For more information, please refer to <http://unlicense.org/>
 
-
-// Look at the on_slashcommand function to verify this bot doesn't log or store
-// anything about the member who sent the anonymous message.
-
-
 #include <stdio.h>
 #include <unistd.h>
 
@@ -44,8 +39,8 @@ static const std::uint64_t GUILD_XDHS_PUBLIC  = 528728694680715324; // The publi
 static const std::uint64_t GUILD_XDHS_PRIVATE = 882164794566791179; // Our private bot testing server
 
 // The channel to send the anonymous messages to.
-static const std::uint64_t MESSAGE_CHANNEL_PUBLIC = 663421258872127498;
-static const std::uint64_t MESSAGE_CHANNEL_PRIVATE = 1081839707190738984;
+static const std::uint64_t MESSAGE_CHANNEL_PUBLIC = 663421258872127498; // #team-general
+static const std::uint64_t MESSAGE_CHANNEL_PRIVATE = 1082090578067607632; // #feedback
 
 // This signal handling is extremely basic but it's all we need for such a simple bot.
 static bool g_quit = false;
@@ -126,7 +121,7 @@ int main() {
 			dpp::slashcommand cmd("feedback", "Send an anonymous feedback message to the XDHS team.", bot.me.id);
 			cmd.default_member_permissions = 0;
 			cmd.add_option(dpp::command_option(dpp::co_string, "text", "The message text to send. Max 1800 characters.", true));
-			cmd.add_option(dpp::command_option(dpp::co_attachment, "attachment", "Add an attachment (screenshot, log file etc) to the message.", false));
+			cmd.add_option(dpp::command_option(dpp::co_attachment, "attachment", "Add an attachment (screenshot, log file, etc.) to the message.", false));
 
 			// Add the command to this guild.
 			bot.guild_command_create(cmd, event.created->id);
