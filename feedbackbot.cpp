@@ -139,7 +139,7 @@ int main() {
 			std::string text = std::get<std::string>(event.get_parameter("text"));
 			if(text.length() > 1800) {
 				dpp::message reply;
-				reply.set_flags(dpp::m_ephemeral); // Only the user who used the command will see the reply.
+				reply.set_flags(dpp::m_ephemeral); // Only the member who used the command will see the reply.
 				reply.set_content("Your message exceeds the maximum allowed 1800 characters.");
 				event.reply(reply);
 				return;
@@ -169,15 +169,15 @@ int main() {
 			if(attachment_url.length() > 0) {
 				full_text += "\nAttachment: " + attachment_url;
 			}
-			message.set_content(full_text); // Add the users message.
+			message.set_content(full_text); // Add the members message.
 			message.set_allowed_mentions(false, false, false, false, {}, {}); // Don't allow messages to ping team members.
 
-			// Send the message to the team channel.
+			// Send the message to the feedback channel. Only XDHS team members can view this channel.
 			bot.message_create(message);
 
-			// Reply to the user who used the command.
+			// Reply to the member who used the command.
 			dpp::message reply;
-			reply.set_flags(dpp::m_ephemeral); // Only the user who used the command will see the reply.
+			reply.set_flags(dpp::m_ephemeral); // An ephemeral message means only the member who used the command will see the reply.
 			reply.set_content("Your message has been sent anonymously to the XDHS team.");
 			event.reply(reply);
 		}
