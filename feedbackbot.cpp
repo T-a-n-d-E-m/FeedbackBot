@@ -35,12 +35,12 @@ static const size_t DISCORD_TOKEN_LENGTH_MAX = 72;
 static char g_discord_token[DISCORD_TOKEN_LENGTH_MAX + 1];
 
 // The two XDHS servers. The private one is used for bot development.
-static const std::uint64_t GUILD_XDHS_PUBLIC  = 528728694680715324; // The public XDHS server
-static const std::uint64_t GUILD_XDHS_PRIVATE = 882164794566791179; // Our private bot testing server
+static const std::uint64_t GUILD_XDHS_PUBLIC_ID  = 528728694680715324; // The public XDHS server
+static const std::uint64_t GUILD_XDHS_PRIVATE_ID = 882164794566791179; // Our private bot testing server
 
 // The channel to send the anonymous messages to.
-static const std::uint64_t MESSAGE_CHANNEL_PUBLIC = 663421258872127498; // #team-general
-static const std::uint64_t MESSAGE_CHANNEL_PRIVATE = 1082090578067607632; // #feedback
+static const std::uint64_t MESSAGE_CHANNEL_PUBLIC_ID = 1082557504887730268; // #feedback
+static const std::uint64_t MESSAGE_CHANNEL_PRIVATE_ID = 1082090578067607632; // #feedback
 
 // This signal handling is extremely basic but it's all we need for such a simple bot.
 static bool g_quit = false;
@@ -112,7 +112,7 @@ int main() {
 		log(LOG_LEVEL_INFO, "on_guild_create: Guild name:[%s] Guild ID:[%lu]", event.created->name.c_str(), guild_id);
 
 		// Check the guild connecting is actually an XDHS guild.
-		if((guild_id != GUILD_XDHS_PUBLIC) && (guild_id != GUILD_XDHS_PRIVATE)) return;
+		if((guild_id != GUILD_XDHS_PUBLIC_ID) && (guild_id != GUILD_XDHS_PRIVATE_ID)) return;
 
 		// We only want to create the slash commands when the bot is first started, not when Discord reconnects a guild, so check if we've already created the slash commands on this execution.
 		static bool commands_already_created = false;
@@ -160,10 +160,10 @@ int main() {
 			dpp::message message;
 			message.set_type(dpp::message_type::mt_default);
 			message.set_guild_id(guild_id); // Send the message to the same guild the command came from.
-			if(guild_id == GUILD_XDHS_PUBLIC) { // Set the channel ID to the correct value for this guild.
-				message.set_channel_id(MESSAGE_CHANNEL_PUBLIC);
+			if(guild_id == GUILD_XDHS_PUBLIC_ID) { // Set the channel ID to the correct value for this guild.
+				message.set_channel_id(MESSAGE_CHANNEL_PUBLIC_ID);
 			} else {
-				message.set_channel_id(MESSAGE_CHANNEL_PRIVATE);
+				message.set_channel_id(MESSAGE_CHANNEL_PRIVATE_ID);
 			}
 			std::string full_text = "Anonymous message received:\n> " + text;
 			if(attachment_url.length() > 0) {
