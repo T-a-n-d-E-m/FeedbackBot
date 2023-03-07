@@ -87,6 +87,7 @@ int main() {
 	log_init("feedbackbot.log");
 
 	log(LOG_LEVEL_INFO, "====== Feedback Bot starting ======");
+	log(LOG_LEVEL_INFO, "Commit version: %s", GIT_COMMIT_HASH);
 	log(LOG_LEVEL_INFO, "libDPP++ version: %s", dpp::utility::version().c_str());
 
 	// Create the bot and connect to Discord.
@@ -188,6 +189,8 @@ int main() {
 	});
 
 	bot.start(true);
+
+	bot.set_presence({dpp::presence_status::ps_online, dpp::activity_type::at_watching, GIT_COMMIT_HASH});
 
 	// Spin until we get a signal to quit.
 	while(!g_quit) sleep(1);
