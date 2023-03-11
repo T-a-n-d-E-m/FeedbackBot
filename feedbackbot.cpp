@@ -17,7 +17,7 @@
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 // IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-// # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+// OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // 
@@ -115,20 +115,14 @@ int main() {
 		// Check the guild connecting is actually an XDHS guild.
 		if((guild_id != GUILD_XDHS_PUBLIC_ID) && (guild_id != GUILD_XDHS_PRIVATE_ID)) return;
 
-		// We only want to create the slash commands when the bot is first started, not when Discord reconnects a guild, so check if we've already created the slash commands on this execution.
-		static bool commands_already_created = false;
-		if(!commands_already_created) {
-			// This bot only has a single command, defined here:
-			dpp::slashcommand cmd("feedback", "Send an anonymous feedback message to the XDHS team.", bot.me.id);
-			cmd.default_member_permissions = 0;
-			cmd.add_option(dpp::command_option(dpp::co_string, "text", "The message text to send. Max 1800 characters.", true));
-			cmd.add_option(dpp::command_option(dpp::co_attachment, "attachment", "Add an attachment (screenshot, log file, etc.) to the message.", false));
+		// This bot only has a single command, defined here:
+		dpp::slashcommand cmd("feedback", "Send an anonymous feedback message to the XDHS team.", bot.me.id);
+		cmd.default_member_permissions = 0;
+		cmd.add_option(dpp::command_option(dpp::co_string, "text", "The message text to send. Max 1800 characters.", true));
+		cmd.add_option(dpp::command_option(dpp::co_attachment, "attachment", "Add an attachment (screenshot, log file, etc.) to the message.", false));
 
-			// Add the command to this guild.
-			bot.guild_command_create(cmd, event.created->id);
-
-			commands_already_created = true;
-		}
+		// Add the command to this guild.
+		bot.guild_command_create(cmd, event.created->id);
 	});
 
 	bot.on_slashcommand([&bot](const dpp::slashcommand_t& event) {
