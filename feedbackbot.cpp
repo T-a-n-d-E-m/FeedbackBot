@@ -117,7 +117,7 @@ int main() {
 
 		// This bot only has a single command, defined here:
 		dpp::slashcommand cmd("feedback", "Send an anonymous feedback message to the XDHS team.", bot.me.id);
-		cmd.default_member_permissions = 0;
+		cmd.default_member_permissions = dpp::p_use_application_commands ;
 		cmd.add_option(dpp::command_option(dpp::co_string, "text", "The message text to send. Max 1800 characters.", true));
 		cmd.add_option(dpp::command_option(dpp::co_attachment, "attachment", "Add an attachment (screenshot, log file, etc.) to the message.", false));
 
